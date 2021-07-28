@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Translator</string>
+    <string name="description_rv">Description</string>
+    <string name="header_rv">Header</string>
+    <string name="transcription">Transcription</string>
+    <string name="search">Search</string>
+    <string name="error">Error</string>
+    <string name="reload">Reload</string>
+    <string name="error_empty_response">Response from server is empty</string>
+    <string name="error_undefined">Undefined error</string>
 </resources>
