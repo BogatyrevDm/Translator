@@ -1,16 +1,11 @@
 package com.example.translator.view.main
 
 import com.example.translator.model.data.AppState
-import com.example.translator.model.datasource.DataSourceLocal
-import com.example.translator.model.datasource.DataSourceRemote
-import com.example.translator.model.repository.RepositoryImpl
 import com.example.translator.viewmodel.BaseViewModel
+import javax.inject.Inject
 
-class MainViewModel(
-    private val interactor: MainInteractor = MainInteractor(
-        RepositoryImpl(DataSourceRemote()),
-        RepositoryImpl(DataSourceLocal()),
-    )
+class MainViewModel @Inject constructor(
+    private val interactor: MainInteractor
 ) : BaseViewModel<AppState>() {
     override fun getData(word: String, isOnline: Boolean) {
         liveDataToObserve.value = AppState.Loading(null)

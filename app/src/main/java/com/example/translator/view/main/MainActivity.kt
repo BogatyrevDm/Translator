@@ -8,20 +8,26 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.translator.R
+import com.example.translator.application.TranslatorApp
 import com.example.translator.databinding.ActivityMainBinding
 import com.example.translator.model.data.AppState
 import com.example.translator.view.base.View
 import com.example.translator.view.main.adapter.MainAdapter
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), View {
+    @Inject
+    internal lateinit var viewmodelFactory: ViewModelProvider.Factory
+
     private var adapter: MainAdapter? = null
     val model: MainViewModel by lazy {
-        ViewModelProvider(this).get(MainViewModel::class.java)
+        viewmodelFactory.create(MainViewModel::class.java)
     }
     private val observer = Observer<AppState> { renderData(it) }
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
+        TranslatorApp.component.inject(this)
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
