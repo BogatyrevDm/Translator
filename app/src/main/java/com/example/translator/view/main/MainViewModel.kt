@@ -2,9 +2,8 @@ package com.example.translator.view.main
 
 import com.example.translator.model.data.AppState
 import com.example.translator.viewmodel.BaseViewModel
-import javax.inject.Inject
 
-class MainViewModel @Inject constructor(
+class MainViewModel (
     private val interactor: MainInteractor
 ) : BaseViewModel<AppState>() {
     override fun getData(word: String, isOnline: Boolean) {
