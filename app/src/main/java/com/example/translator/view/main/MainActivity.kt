@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), View {
         binding.searchButton.setOnClickListener {
             model.getData(binding.searchEditText.text.toString(), true)
         }
-        model.viewState.observe(this, observer)
+        model.subscribe().observe(this, observer)
     }
 
     override fun renderData(appState: AppState) {

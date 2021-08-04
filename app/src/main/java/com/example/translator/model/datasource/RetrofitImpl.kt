@@ -2,19 +2,18 @@ package com.example.translator.model.datasource
 
 import com.example.translator.model.data.DataModel
 import com.google.gson.GsonBuilder
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import io.reactivex.Observable
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
 class RetrofitImpl : DataSource<List<DataModel>> {
-    override fun getData(word: String): Observable<List<DataModel>> {
+    override suspend fun getData(word: String): List<DataModel> {
         return Retrofit.Builder()
             .baseUrl(BASE_URL_LOCATIONS)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create())).build()
-            .create(ApiService::class.java).search(word)
+            .create(ApiService::class.java).searchAsync(word).await()
     }
 
     companion object {
