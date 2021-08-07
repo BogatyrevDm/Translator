@@ -1,43 +1,36 @@
-package com.example.translator.view.main
+package com.example.translator.view.history
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.translator.R
-import com.example.translator.databinding.ActivityMainBinding
+import com.example.translator.databinding.ActivityHistoryBinding
 import com.example.translator.model.data.AppState
-import com.example.translator.model.datasource.RetrofitImpl
-import com.example.translator.model.datasource.RoomDataBaseImpl
-import com.example.translator.model.repository.RepositoryImpl
 import com.example.translator.view.base.View
-import com.example.translator.view.history.HistoryActivity
-import com.example.translator.view.main.adapter.MainAdapter
 import org.koin.android.ext.android.get
 
-class MainActivity : AppCompatActivity(), View {
+class HistoryActivity : AppCompatActivity(), View {
 
 
-    private var adapter: MainAdapter? = null
-    val model: MainViewModel = get()
+    private var adapter: HistoryAdapter? = null
+    val model: HistoryViewModel = get()
     private val observer = Observer<AppState> { renderData(it) }
-    private var _binding: ActivityMainBinding? = null
+    private var _binding: ActivityHistoryBinding? = null
     private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.searchButton.setOnClickListener {
-            model.getData(binding.searchEditText.text.toString(), true)
-        }
         model.subscribe().observe(this, observer)
     }
 
+    override fun onResume() {
+        super.onResume()
+        model.getData("", false)
+    }
     override fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
@@ -47,9 +40,9 @@ class MainActivity : AppCompatActivity(), View {
                 } else {
                     showViewSuccess()
                     if (adapter == null) {
-                        binding.mainActivityRv.layoutManager =
+                        binding.historyActivityRv.layoutManager =
                             LinearLayoutManager(applicationContext)
-                        binding.mainActivityRv.adapter = MainAdapter(dataModel)
+                        binding.historyActivityRv.adapter = HistoryAdapter(dataModel)
                     } else {
                         adapter!!.setData(dataModel)
                     }
@@ -61,22 +54,6 @@ class MainActivity : AppCompatActivity(), View {
             is AppState.Error -> {
                 showErrorScreen(appState.error.message)
             }
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.history_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        return when (item.itemId) {
-            R.id.menu_history -> {
-                startActivity(Intent(this, HistoryActivity::class.java))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
     }
 
