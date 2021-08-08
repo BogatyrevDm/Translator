@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.translator.databinding.ActivityMainItemBinding
 import com.example.translator.model.data.DataModel
 
-class MainAdapter(private var data: List<DataModel>) :
+class MainAdapter(
+    private var data: List<DataModel>,
+    private var onListItemClickListener: OnListItemClickListener
+) :
     RecyclerView.Adapter<MainAdapter.RecyclerItemViewHolder>() {
 
     fun setData(data: List<DataModel>) {
@@ -29,12 +32,21 @@ class MainAdapter(private var data: List<DataModel>) :
         return data.size
     }
 
+    interface OnListItemClickListener {
+        fun onItemClick(data: DataModel)
+    }
+
     inner class RecyclerItemViewHolder(val view: ActivityMainItemBinding) :
         RecyclerView.ViewHolder(view.root) {
         fun bind(data: DataModel) {
             view.headerTextviewRv.text = data.text
             view.descriptionTextviewRv.text = data.meanings?.get(0)?.translation?.translation
             view.transcriptionTextviewRv.text = data.meanings?.get(0)?.transcription
+            itemView.setOnClickListener { openInNewWindow(data) }
         }
+    }
+
+    private fun openInNewWindow(listItemData: DataModel) {
+        onListItemClickListener.onItemClick(listItemData)
     }
 }

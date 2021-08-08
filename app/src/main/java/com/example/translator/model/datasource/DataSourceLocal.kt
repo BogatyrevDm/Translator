@@ -1,8 +1,8 @@
 package com.example.translator.model.datasource
 
-import com.example.translator.model.data.DataModel
+import com.example.translator.model.data.AppState
 
-
-class DataSourceLocal (private val localProvider:RoomDataBaseImpl):DataSource<List<DataModel>> {
-    override suspend fun getData(word: String): List<DataModel> = localProvider.getData(word)
+interface DataSourceLocal<T> : DataSource<T> {
+    suspend fun saveToDB(appState: AppState)
+    suspend fun getDataByWord(word:String):T
 }
