@@ -10,4 +10,8 @@
     <string name="error_undefined">Undefined error</string>
     <string name="history_text">History</string>
     <string name="word_rv">Word</string>
+    <string name="history_search">History search</string>
+    <string name="image_stub">image</string>
+    <string name="header_text">Header</string>
+    <string name="description_text">Description</string>
 </resources>

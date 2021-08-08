@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class RetrofitImpl : DataSource<List<DataModel>> {
+class RetrofitImpl : DataSource<DataModel> {
     override suspend fun getData(word: String): List<DataModel> {
         return Retrofit.Builder()
             .baseUrl(BASE_URL_LOCATIONS)

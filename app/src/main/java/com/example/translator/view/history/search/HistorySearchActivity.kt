@@ -1,34 +1,28 @@
-package com.example.translator.view.history
+package com.example.translator.view.history.search
 
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.translator.R
-import com.example.translator.databinding.ActivityHistoryBinding
+import com.example.translator.databinding.ActivityHistorySearchBinding
 import com.example.translator.model.data.AppState
 import com.example.translator.view.base.BaseActivity
+import com.example.translator.view.descriptionscreen.DescriptionActivity
 import org.koin.android.ext.android.get
 
-class HistoryActivity : BaseActivity<AppState>() {
-
-
-    private var adapter: HistoryAdapter? = null
-    override val model: HistoryViewModel = get()
+class HistorySearchActivity : BaseActivity<AppState>(){
+    override val model: HistorySearchViewModel = get()
     private val observer = Observer<AppState> { renderData(it) }
-    private var _binding: ActivityHistoryBinding? = null
+    private var _binding: ActivityHistorySearchBinding? = null
     private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityHistoryBinding.inflate(layoutInflater)
+        _binding = ActivityHistorySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.searchButton.setOnClickListener { model.getData(binding.searchEditText.text.toString(), false) }
         model.subscribe().observe(this, observer)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        model.getData("", false)
     }
 
     override fun showErrorScreen(error: String?) {
@@ -56,12 +50,14 @@ class HistoryActivity : BaseActivity<AppState>() {
     }
 
     override fun onLoadingSuccess(appState: AppState.Success) {
-        if (adapter == null) {
-            binding.historyActivityRv.layoutManager =
-                LinearLayoutManager(applicationContext)
-            binding.historyActivityRv.adapter = HistoryAdapter(appState.data!!)
-        } else {
-            adapter!!.setData(appState.data!!)
-        }
+
+        startActivity(
+            DescriptionActivity.getIntent(
+                this@HistorySearchActivity,
+                appState.data?.get(0)?.text!!,
+                "",
+                ""
+            )
+        )
     }
 }

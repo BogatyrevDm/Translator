@@ -11,6 +11,8 @@ import com.example.translator.model.repository.RepositoryLocalImpl
 import com.example.translator.room.HistoryDatabase
 import com.example.translator.view.history.HistoryInteractor
 import com.example.translator.view.history.HistoryViewModel
+import com.example.translator.view.history.search.HistorySearchInteractor
+import com.example.translator.view.history.search.HistorySearchViewModel
 import com.example.translator.view.main.MainInteractor
 import com.example.translator.view.main.MainViewModel
 import org.koin.dsl.module
@@ -18,8 +20,8 @@ import org.koin.dsl.module
 val application = module {
     single { Room.databaseBuilder(get(), HistoryDatabase::class.java, "HistoryDB").build() }
     single { get<HistoryDatabase>().historyDao() }
-    single<Repository<List<DataModel>>> { RepositoryImpl(RetrofitImpl()) }
-    single<RepositoryLocal<List<DataModel>>> { RepositoryLocalImpl(RoomDataBaseImpl(get())) }
+    single<Repository<DataModel>> { RepositoryImpl(RetrofitImpl()) }
+    single<RepositoryLocal<DataModel>> { RepositoryLocalImpl(RoomDataBaseImpl(get())) }
 }
 
 val mainScreen = module {
@@ -30,4 +32,8 @@ val mainScreen = module {
 val historyScreen = module {
     factory { HistoryInteractor(get()) }
     factory { HistoryViewModel(get()) }
+}
+val historySearchScreen = module {
+    factory { HistorySearchInteractor(get()) }
+    factory { HistorySearchViewModel(get()) }
 }

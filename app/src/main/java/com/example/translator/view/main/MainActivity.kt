@@ -6,28 +6,39 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.translator.R
 import com.example.translator.databinding.ActivityMainBinding
 import com.example.translator.model.data.AppState
-import com.example.translator.model.datasource.RetrofitImpl
-import com.example.translator.model.datasource.RoomDataBaseImpl
-import com.example.translator.model.repository.RepositoryImpl
-import com.example.translator.view.base.View
+import com.example.translator.model.data.DataModel
+import com.example.translator.view.base.BaseActivity
+import com.example.translator.view.descriptionscreen.DescriptionActivity
 import com.example.translator.view.history.HistoryActivity
+import com.example.translator.view.history.search.HistorySearchActivity
 import com.example.translator.view.main.adapter.MainAdapter
 import org.koin.android.ext.android.get
 
-class MainActivity : AppCompatActivity(), View {
-
+class MainActivity : BaseActivity<AppState>() {
 
     private var adapter: MainAdapter? = null
-    val model: MainViewModel = get()
+    override val model: MainViewModel = get()
     private val observer = Observer<AppState> { renderData(it) }
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
+    private val onListItemClickListener: MainAdapter.OnListItemClickListener =
+        object : MainAdapter.OnListItemClickListener {
+            override fun onItemClick(data: DataModel) {
+                startActivity(
+                    DescriptionActivity.getIntent(
+                        this@MainActivity,
+                        data.text!!,
+                        data.meanings!![0].translation?.translation.toString(),
+                        data.meanings[0].imageUrl
+                    )
+                )
+            }
+        }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
@@ -36,32 +47,6 @@ class MainActivity : AppCompatActivity(), View {
             model.getData(binding.searchEditText.text.toString(), true)
         }
         model.subscribe().observe(this, observer)
-    }
-
-    override fun renderData(appState: AppState) {
-        when (appState) {
-            is AppState.Success -> {
-                val dataModel = appState.data
-                if (dataModel == null || dataModel.isEmpty()) {
-                    showErrorScreen(getString(R.string.error_empty_response))
-                } else {
-                    showViewSuccess()
-                    if (adapter == null) {
-                        binding.mainActivityRv.layoutManager =
-                            LinearLayoutManager(applicationContext)
-                        binding.mainActivityRv.adapter = MainAdapter(dataModel)
-                    } else {
-                        adapter!!.setData(dataModel)
-                    }
-                }
-            }
-            is AppState.Loading -> {
-                showViewLoading()
-            }
-            is AppState.Error -> {
-                showErrorScreen(appState.error.message)
-            }
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -76,31 +61,45 @@ class MainActivity : AppCompatActivity(), View {
                 startActivity(Intent(this, HistoryActivity::class.java))
                 true
             }
+            R.id.menu_history_search -> {
+                startActivity(Intent(this, HistorySearchActivity::class.java))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun showErrorScreen(error: String?) {
+    override fun showErrorScreen(error: String?) {
         showViewError()
         binding.errorTextView.text = error ?: getString(R.string.error_undefined)
         binding.reloadButton.setOnClickListener { model.getData("Hi", true) }
     }
 
-    private fun showViewSuccess() {
+    override fun showViewSuccess() {
         binding.successLinearLayout.visibility = VISIBLE
         binding.loadingFrameLayout.visibility = GONE
         binding.errorLinearLayout.visibility = GONE
     }
 
-    private fun showViewLoading() {
+    override fun showViewLoading() {
         binding.successLinearLayout.visibility = GONE
         binding.loadingFrameLayout.visibility = VISIBLE
         binding.errorLinearLayout.visibility = GONE
     }
 
-    private fun showViewError() {
+    override fun showViewError() {
         binding.successLinearLayout.visibility = GONE
         binding.loadingFrameLayout.visibility = GONE
         binding.errorLinearLayout.visibility = VISIBLE
+    }
+
+    override fun onLoadingSuccess(appState: AppState.Success) {
+        if (adapter == null) {
+            binding.mainActivityRv.layoutManager =
+                LinearLayoutManager(applicationContext)
+            binding.mainActivityRv.adapter = MainAdapter(appState.data!!,onListItemClickListener)
+        } else {
+            adapter!!.setData(appState.data!!)
+        }
     }
 }

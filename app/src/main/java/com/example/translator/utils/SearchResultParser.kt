@@ -15,6 +15,10 @@ fun mapHistoryEntityToSearchResult(list: List<HistoryEntity>): List<DataModel> {
     return searchResult
 }
 
+fun mapHistoryEntityToSearchResultOneWord(word: HistoryEntity): DataModel {
+    return DataModel(word.word, null)
+}
+
 fun convertDataModelSuccessToEntity(appState: AppState): HistoryEntity? {
     return when (appState) {
         is AppState.Success -> {
