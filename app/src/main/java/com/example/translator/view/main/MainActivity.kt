@@ -34,7 +34,7 @@ class MainActivity : BaseActivity<AppState>() {
                         this@MainActivity,
                         data.text!!,
                         data.meanings!![0].translation?.translation.toString(),
-                        data.meanings[0].imageUrl
+                        data.meanings!![0].imageUrl
                     )
                 )
             }

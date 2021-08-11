@@ -5,12 +5,19 @@ object Config{
     const val compile_sdk = 30
     const val min_sdk = 21
     const val target_sdk = 30
+    const val build_tools_version = "30.0.3"
     val java_version = JavaVersion.VERSION_1_8
 }
 object Releases{
     const val version_code = 1
     const val version_name = "1.0"
 }
+
+object Modules {
+    const val app = ":app"
+    const val model = ":model"
+}
+
 object Versions{
     //Design
     const val appcompat = "1.1.0-rc01"
