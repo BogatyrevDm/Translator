@@ -1,4 +1,4 @@
-package com.example.translator.utils
+package com.example.repository
 
 import com.example.translator.model.data.AppState
 import com.example.translator.model.data.DataModel

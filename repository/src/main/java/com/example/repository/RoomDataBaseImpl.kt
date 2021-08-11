@@ -1,11 +1,8 @@
-package com.example.translator.model.datasource
+package com.example.repository
 
 import com.example.translator.model.data.AppState
 import com.example.translator.model.data.DataModel
 import com.example.translator.room.HistoryDao
-import com.example.translator.utils.convertDataModelSuccessToEntity
-import com.example.translator.utils.mapHistoryEntityToSearchResult
-import com.example.translator.utils.mapHistoryEntityToSearchResultOneWord
 
 
 class RoomDataBaseImpl(private val historyDao: HistoryDao) : DataSourceLocal<DataModel> {

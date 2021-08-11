@@ -1,5 +1,6 @@
-package com.example.translator.model.datasource
+package com.example.repository
 
+import com.example.repository.api.ApiService
 import com.example.translator.model.data.DataModel
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
