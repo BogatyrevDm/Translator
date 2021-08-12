@@ -1,8 +1,8 @@
 package com.example.translator.view.main
 
 import androidx.lifecycle.LiveData
+import com.example.core.viewmodel.BaseViewModel
 import com.example.translator.model.data.AppState
-import com.example.translator.viewmodel.BaseViewModel
 import kotlinx.coroutines.*
 
 class MainViewModel (
