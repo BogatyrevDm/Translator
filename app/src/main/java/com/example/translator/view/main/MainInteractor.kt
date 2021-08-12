@@ -1,10 +1,10 @@
 package com.example.translator.view.main
 
+import com.example.core.viewmodel.Interactor
 import com.example.repository.Repository
 import com.example.repository.RepositoryLocal
 import com.example.translator.model.data.AppState
 import com.example.translator.model.data.DataModel
-import com.example.translator.viewmodel.Interactor
 
 class MainInteractor(
     private val remoteRepository: Repository<DataModel>,

@@ -14,9 +14,12 @@ object Releases{
 }
 
 object Modules {
+    const val core = ":core"
     const val app = ":app"
     const val model = ":model"
     const val repository = ":repository"
+    const val historyScreen = ":historyScreen"
+    const val descriptionScreen = ":descriptionScreen"
 }
 
 object Versions{
