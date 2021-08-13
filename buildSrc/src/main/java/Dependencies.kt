@@ -24,7 +24,7 @@ object Modules {
 
 object Versions{
     //Design
-    const val appcompat = "1.1.0-rc01"
+    const val appcompat = "1.4.0-alpha03"
     const val constraint = "2.1.0"
     const val swiperefresh = "1.1.0"
     const val material = "1.4.0"
@@ -43,6 +43,7 @@ object Versions{
 
     //Koin
     const val koinAndroid = "2.0.1"
+    const val koinViewModel = "2.0.1"
 
     //Picasso
     const val picasso = "2.5.2"
@@ -85,6 +86,7 @@ object Retrofit {
 
 object Koin {
     const val koin_android = "org.koin:koin-android:${Versions.koinAndroid}"
+    const val koin_viewmodel =  "org.koin:koin-androidx-viewmodel:${Versions.koinViewModel}"
 }
 
 object Picasso {

@@ -8,15 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.BaseActivity
 import com.example.historyscreen.R
 import com.example.historyscreen.databinding.ActivityHistoryBinding
-
 import com.example.translator.model.data.AppState
-import org.koin.android.ext.android.get
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HistoryActivity : BaseActivity<AppState>() {
 
 
     private var adapter: HistoryAdapter? = null
-    override val model: HistoryViewModel = get()
+    override val model: HistoryViewModel by viewModel()
     private val observer = Observer<AppState> { renderData(it) }
     private var _binding: ActivityHistoryBinding? = null
     private val binding get() = _binding!!

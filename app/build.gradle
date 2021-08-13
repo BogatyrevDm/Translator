@@ -60,7 +60,7 @@ dependencies {
 
     //Koin for Android
     implementation Koin.koin_android
-    //implementation 'org.koin:koin-android-viewmodel:2.0.1'
+    implementation Koin.koin_viewmodel
 
     //Room
     implementation Room.runtime

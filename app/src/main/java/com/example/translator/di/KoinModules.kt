@@ -8,6 +8,7 @@ import com.example.translator.model.data.DataModel
 import com.example.translator.room.HistoryDatabase
 import com.example.translator.view.main.MainInteractor
 import com.example.translator.view.main.MainViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val application = module {
@@ -19,10 +20,10 @@ val application = module {
 
 val mainScreen = module {
     factory { MainInteractor(get(), get()) }
-    factory { MainViewModel(get()) }
+    viewModel { MainViewModel(get()) }
 }
 
 val historyScreen = module {
     factory { HistoryInteractor(get()) }
-    factory { HistoryViewModel(get()) }
+    viewModel { HistoryViewModel(get()) }
 }

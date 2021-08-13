@@ -16,12 +16,12 @@ import com.example.translator.model.data.AppState
 import com.example.translator.model.data.DataModel
 import com.example.translator.view.descriptionscreen.DescriptionActivity
 import com.example.translator.view.main.adapter.MainAdapter
-import org.koin.android.ext.android.get
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<AppState>() {
 
     private var adapter: MainAdapter? = null
-    override val model: MainViewModel = get()
+    override val model: MainViewModel by viewModel()
     private val observer = Observer<AppState> { renderData(it) }
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
