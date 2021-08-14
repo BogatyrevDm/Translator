@@ -60,6 +60,8 @@ object Versions{
     //const val runner = "1.2.0"
     const val espressoCore = "3.4.0"
 
+    //Google Play
+    const val googlePlayCore = "1.10.0"
 }
 
 object Design {
@@ -103,4 +105,8 @@ object TestImpl {
     const val junit = "junit:junit:${Versions.jUnit}"
     const val junit_android = "androidx.test.ext:junit:${Versions.jUnitAndroid}"
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
+}
+
+object GooglePlay {
+    const val googlePlayCore = "com.google.android.play:core:${Versions.googlePlayCore}"
 }

@@ -6,22 +6,31 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.BaseActivity
-import com.example.historyscreen.view.history.HistoryActivity
 import com.example.translator.R
 import com.example.translator.databinding.ActivityMainBinding
+import com.example.translator.di.injectDependencies
 import com.example.translator.model.data.AppState
 import com.example.translator.model.data.DataModel
 import com.example.translator.view.descriptionscreen.DescriptionActivity
 import com.example.translator.view.main.adapter.MainAdapter
+import com.google.android.play.core.splitinstall.SplitInstallManager
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import com.google.android.play.core.splitinstall.SplitInstallRequest
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
+private const val HISTORY_ACTIVITY_PATH = "com.example.historyscreen.view.history.HistoryActivity"
+private const val HISTORY_ACTIVITY_FEATURE_NAME = "historyScreen"
 
 class MainActivity : BaseActivity<AppState>() {
 
     private var adapter: MainAdapter? = null
     override val model: MainViewModel by viewModel()
+    private lateinit var splitInstallManager: SplitInstallManager
+
     private val observer = Observer<AppState> { renderData(it) }
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
@@ -38,10 +47,12 @@ class MainActivity : BaseActivity<AppState>() {
                 )
             }
         }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        injectDependencies()
         binding.searchButton.setOnClickListener {
             model.getData(binding.searchEditText.text.toString(), true)
         }
@@ -57,7 +68,26 @@ class MainActivity : BaseActivity<AppState>() {
 
         return when (item.itemId) {
             R.id.menu_history -> {
-                startActivity(Intent(this, HistoryActivity::class.java))
+                splitInstallManager = SplitInstallManagerFactory.create(applicationContext)
+                val request =
+                    SplitInstallRequest
+                        .newBuilder()
+                        .addModule(HISTORY_ACTIVITY_FEATURE_NAME)
+                        .build()
+
+                splitInstallManager
+                    .startInstall(request)
+                    .addOnSuccessListener {
+                        val intent = Intent().setClassName(packageName, HISTORY_ACTIVITY_PATH)
+                        startActivity(intent)
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(
+                            applicationContext,
+                            "Couldn't download feature: " + it.message,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -92,7 +122,7 @@ class MainActivity : BaseActivity<AppState>() {
         if (adapter == null) {
             binding.mainActivityRv.layoutManager =
                 LinearLayoutManager(applicationContext)
-            binding.mainActivityRv.adapter = MainAdapter(appState.data!!,onListItemClickListener)
+            binding.mainActivityRv.adapter = MainAdapter(appState.data!!, onListItemClickListener)
         } else {
             adapter!!.setData(appState.data!!)
         }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.BaseActivity
 import com.example.historyscreen.R
 import com.example.historyscreen.databinding.ActivityHistoryBinding
+import com.example.historyscreen.di.injectDependencies
 import com.example.translator.model.data.AppState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,6 +24,7 @@ class HistoryActivity : BaseActivity<AppState>() {
         super.onCreate(savedInstanceState)
         _binding = ActivityHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        injectDependencies()
         model.subscribe().observe(this, observer)
     }
 
