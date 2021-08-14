@@ -35,13 +35,13 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    dynamicFeatures = [Modules.historyScreen]
 }
 
 dependencies {
     implementation project(Modules.core)
     implementation project(Modules.model)
     implementation project(Modules.repository)
-    implementation project(Modules.historyScreen)
     implementation project(Modules.descriptionScreen)
 
     //AndroidX
@@ -60,7 +60,7 @@ dependencies {
 
     //Koin for Android
     implementation Koin.koin_android
-    //implementation 'org.koin:koin-android-viewmodel:2.0.1'
+    implementation Koin.koin_viewmodel
 
     //Room
     implementation Room.runtime
@@ -72,6 +72,9 @@ dependencies {
     implementation Retrofit.converter_gson
     implementation Retrofit.logging_interceptor
     implementation Retrofit.adapter_coroutines
+
+    //Google Play libraries
+    implementation GooglePlay.googlePlayCore
 
     implementation Design.constraint
     testImplementation TestImpl.junit
