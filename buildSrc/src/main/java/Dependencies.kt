@@ -87,8 +87,8 @@ object Retrofit {
 }
 
 object Koin {
-    const val koin_android = "org.koin:koin-android:${Versions.koinAndroid}"
-    const val koin_viewmodel =  "org.koin:koin-androidx-viewmodel:${Versions.koinViewModel}"
+    const val koin_android = "io.insert-koin:koin-android:${Versions.koinAndroid}"
+    const val koin_viewmodel =  "io.insert-koin:koin-androidx-viewmodel:${Versions.koinViewModel}"
 }
 
 object Picasso {
