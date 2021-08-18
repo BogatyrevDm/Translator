@@ -43,6 +43,7 @@ dependencies {
     implementation project(Modules.model)
     implementation project(Modules.repository)
     implementation project(Modules.descriptionScreen)
+    implementation project(Modules.utils)
 
     //AndroidX
     implementation Design.appcompat
