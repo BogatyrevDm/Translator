@@ -8,3 +8,4 @@ include ":repository"
 include ':historyScreen'
 include ':core'
 include ':descriptionScreen'
+include ':utils'

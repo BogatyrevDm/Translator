@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import com.example.translator.model.data.AppState
 import com.example.translator.model.data.DataModel
 import com.example.translator.view.descriptionscreen.DescriptionActivity
 import com.example.translator.view.main.adapter.MainAdapter
+import com.example.utils.viewById
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -70,7 +72,8 @@ class MainActivity : BaseActivity<AppState>() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         injectDependencies()
-        binding.searchButton.setOnClickListener {
+        val searchButton by viewById<Button>(R.id.search_button)
+        searchButton.setOnClickListener {
             model.getData(binding.searchEditText.text.toString(), true)
         }
         model.subscribe().observe(this, observer)

@@ -20,6 +20,7 @@ object Modules {
     const val repository = ":repository"
     const val historyScreen = ":historyScreen"
     const val descriptionScreen = ":descriptionScreen"
+    const val utils = ":utils"
 }
 
 object Versions{
