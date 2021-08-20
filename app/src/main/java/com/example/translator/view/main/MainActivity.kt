@@ -2,6 +2,7 @@ package com.example.translator.view.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View.GONE
@@ -36,7 +37,6 @@ private const val HISTORY_ACTIVITY_FEATURE_NAME = "historyScreen"
 private const val REQUEST_CODE = 42
 
 class MainActivity : BaseActivity<AppState>() {
-
     private var adapter: MainAdapter? = null
     override val model: MainViewModel by viewModel()
     private lateinit var splitInstallManager: SplitInstallManager
@@ -175,7 +175,12 @@ class MainActivity : BaseActivity<AppState>() {
                     }
                 true
             }
-            else -> super.onOptionsItemSelected(item)
+            R.id.menu_screen_settings -> {
+                startActivityForResult(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY), 42)
+
+                true
+            }
+                else -> super.onOptionsItemSelected(item)
         }
     }
 

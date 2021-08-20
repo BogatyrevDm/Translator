@@ -2,13 +2,11 @@ package com.example.core
 
 import androidx.appcompat.app.AppCompatActivity
 import com.example.core.viewmodel.BaseViewModel
-
 import com.example.translator.model.data.AppState
 
 
 abstract class BaseActivity<T : AppState> : AppCompatActivity() {
     abstract val model: BaseViewModel<T>
-
     protected fun renderData(appState: T) {
         when (appState) {
             is AppState.Success -> {
